@@ -73,7 +73,7 @@ class App:
     def start(self):
         """Creates connection threads for each scale"""
         for scale in config.scales.items():
-            self.weights += [Scale(scale[0],scale[1]['ip'],scale[1]['port'])]
+            self.weights += [Scale(scale[0],scale[1]['host'],scale[1]['port'])]
         for weight in self.weights:
             threading.Thread(target=weight.connection).start()
         self.root.after(100, self.update)

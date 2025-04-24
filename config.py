@@ -7,9 +7,9 @@ if not ini.is_file():
     config = configparser.ConfigParser()
     config['GUI']       = { 'windowsposition':'200x60-0-50' }
     config['DEFAULT']   = { 'port':'1749' }
-    config['scale1']    = { 'ip':'127.0.0.1',
+    config['scale1']    = { 'host':'127.0.0.1',
                             'port':'1749' }
-    config['scale2']    = { 'ip':'127.0.0.1',
+    config['scale2']    = { 'host':'127.0.0.1',
                             'port':'1749' }
     with open(ini, 'w', encoding="utf-8") as configfile:
         config.write(configfile)

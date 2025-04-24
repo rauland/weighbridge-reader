@@ -4,11 +4,11 @@ This program connects to a Mettler Toledo Scale and displays the weight in tons.
 Run once to generate a config file. The program can support one or more scales, example of a remote scale configuration:
 
 > [scale1]  
-> ip = 10.0.0.100  
+> host = localhost 
 > port = 1749  
 >
 > [scale2]  
-> ip = 10.0.0.101  
+> host = 10.0.0.101  
 > port = 1749  
 
 ![image](https://user-images.githubusercontent.com/30706122/213860647-2cba4694-46a9-4a7d-b115-9fb74c396fcf.png)

@@ -6,7 +6,7 @@ windowsposition = 200x60-0-50
 port = 1749
 
 [scale1]
-ip = 127.0.0.1
+host = localhost
 
 [scale2]
-ip = 127.0.0.1
+host = 127.0.0.1
