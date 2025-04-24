@@ -5,15 +5,22 @@ from pathlib import Path
 ini = Path("config.ini").resolve()
 if not ini.is_file():
     config = configparser.ConfigParser()
-    config['DEFAULT']={'windowsposition':'200x60-0-50'}
-    config['scale'] = {}
-    config['scale'] = { 'ip':'192.168.1.100,192.168.1.101,192.168.1.102', # comma delimiter for mutiple ips
-                        'port':'1749'}
+    config['GUI']       = { 'windowsposition':'200x60-0-50' }
+    config['DEFAULT']   = { 'port':'1749' }
+    config['scale1']    = { 'ip':'127.0.0.1',
+                            'port':'1749' }
+    config['scale2']    = { 'ip':'127.0.0.1',
+                            'port':'1749' }
     with open(ini, 'w', encoding="utf-8") as configfile:
         config.write(configfile)
 
 conf = configparser.ConfigParser()
 conf.read(ini)
-ips = list(conf['scale']['ip'].split(','))
-port =int(conf['scale']['port'])
-windowsposition = conf['DEFAULT']['windowsposition']
+
+scales = {
+    section: dict(conf[section]) 
+    for section in conf.sections()
+    if section != 'GUI'
+}
+
+windowsposition = conf['GUI']['windowsposition']

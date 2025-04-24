@@ -5,15 +5,17 @@ import threading
 import time
 import config
 
-class Connection:
+class Scale:
+    """This class represents a scale and it's values"""
     def __init__(self, host, port) -> None:
         self.host = host
-        self.port = port
+        self.port = int(port)
         self.stop = False
         self.weight = 0
         self.status = 1
 
     def connection(self):
+        """This method handles the connection to the scale"""
         while not self.stop:
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -73,11 +75,10 @@ class App:
             print(f"t: {int(total) :<8} s: {len(self.weights) :>1}")
         self.root.after(100, self.update)
 
-    def connections(self):
-        for ip in config.ips:
-            self.weights +=[
-                Connection(ip,config.port),
-            ]
+    def start(self):
+        """Creates connection threads for each scale"""
+        for scale in config.scales.items():
+            self.weights += [Scale(scale[1]['ip'],scale[1]['port'])]
         for weight in self.weights:
             threading.Thread(target=weight.connection).start()
 
@@ -85,7 +86,7 @@ if __name__ == '__main__':
     # Create tinker app
     app = App()
     # Start Connection Threads
-    app.connections()
+    app.start()
     # Main loop for Tkinter App
     app.root.after(100, app.update)
     app.root.mainloop()

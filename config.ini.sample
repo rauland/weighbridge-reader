@@ -1,7 +1,12 @@
 # Copy config.ini.sample to config.ini or run program once to generate new config.ini file.
-[DEFAULT]
+[GUI]
 windowsposition = 200x60-0-50
 
-[scale]
-ip = 192.168.1.100,192.168.1.101,192.168.1.102
+[DEFAULT]
 port = 1749
+
+[scale1]
+ip = 127.0.0.1
+
+[scale2]
+ip = 127.0.0.1
