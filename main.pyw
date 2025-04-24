@@ -6,7 +6,7 @@ import time
 import config
 
 class Scale:
-    """This class represents a scale and it's values"""
+    """This class represents a scale"""
     def __init__(self, host, port) -> None:
         self.host = host
         self.port = int(port)
@@ -15,7 +15,7 @@ class Scale:
         self.status = 1
 
     def connection(self):
-        """This method handles the connection to the scale"""
+        """Handles the connection to the scale"""
         while not self.stop:
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -56,6 +56,8 @@ class App:
         self.scales = tk.Label(self.frame, text="⚖️ 0", font=("Helvetica", 15))
         self.scales.pack(side="right", padx=10)
 
+        self.start()
+
     def update(self):
         """Updates values in GUI"""
         neterror = False
@@ -81,15 +83,12 @@ class App:
             self.weights += [Scale(scale[1]['ip'],scale[1]['port'])]
         for weight in self.weights:
             threading.Thread(target=weight.connection).start()
+        self.root.after(100, self.update)
+        self.root.mainloop()
 
 if __name__ == '__main__':
     # Create tinker app
     app = App()
-    # Start Connection Threads
-    app.start()
-    # Main loop for Tkinter App
-    app.root.after(100, app.update)
-    app.root.mainloop()
     # Stop Connection threads
     for connection in app.weights:
         connection.stop = True
