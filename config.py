@@ -18,7 +18,7 @@ conf = configparser.ConfigParser()
 conf.read(ini)
 
 scales = {
-    section: dict(conf[section]) 
+    section: dict(conf[section])
     for section in conf.sections()
     if section != 'GUI'
 }
