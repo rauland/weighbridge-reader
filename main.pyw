@@ -6,7 +6,7 @@ import time
 import config
 
 class Scale:
-    """This class represents a scale"""
+    """This represents a scale"""
     def __init__(self, name, host, port) -> None:
         self.name = name
         self.host = host
@@ -17,7 +17,7 @@ class Scale:
         self.statusmsg = "Connecting..."
 
     def connection(self):
-        """Handles the connection to the scale"""
+        """Handles the connection to the physical scale"""
         while not self.stop:
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -40,7 +40,7 @@ class Scale:
             print(f"{self.name} connection {self.host}: got STOP, exit thread.")
 
 class App:
-    """APP GUI Class"""
+    """App GUI"""
     def __init__(self) -> None:
         self.weights = []
         self.root = tk.Tk()
@@ -54,10 +54,11 @@ class App:
         self.reading.pack(side="left", padx=10,pady=5)
         self.scales = tk.Label(self.frame, text="⚖️ 0", font=("Helvetica", 15))
         self.scales.pack(side="right", padx=10)
+        self.root.protocol("WM_DELETE_WINDOW", self.stop)
         self.start()
 
     def update(self):
-        """Updates values in GUI"""
+        """Updates values in App's GUI"""
         for scale in self.weights:
             if scale.status > 0:
                 netmsg = f"{scale.name}\n{scale.host}:{scale.port}\n{scale.statusmsg}"
@@ -79,9 +80,12 @@ class App:
         self.root.after(100, self.update)
         self.root.mainloop()
 
+    def stop(self):
+        """Stops all connection threads and stops App"""
+        print("Shutting down...")
+        for connection in self.weights:
+            connection.stop = True
+        self.root.destroy()
+
 if __name__ == '__main__':
-    # Create tinker app
     app = App()
-    # Stop Connection threads
-    for connection in app.weights:
-        connection.stop = True
